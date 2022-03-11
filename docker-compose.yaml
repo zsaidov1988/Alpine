@@ -1,20 +1,22 @@
 version: '3'
 services:
-  web:
+  alpine:
     image: nginx
+    container_name: alpine
+    restart: unless-stopped
     # command: rm /usr/share/nginx/html/index.html
     volumes:
       - ./templates:/etc/nginx/templates
       - .:/usr/share/nginx/html/
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.alpine.rule=Host(alpine.zafardevops.uz)"
-      # - "traefik.http.routers.alpine.entrypoints=websecure"
-      # - "traefik.http.routers.alpine.tls.certresolver=letsencrypt"
-      - "traefik.http.services.alpine.loadbalancer.server.port=8080"
+      - "traefik.http.routers.alpine.rule=Host(`alpine.zafardevops.uz`)"
+      - "traefik.http.routers.alpine.entrypoints=websecure"
+      - "traefik.http.routers.alpine.tls.certresolver=letsencrypt"
+      - "traefik.http.services.alpine.loadbalancer.server.port=4000"
       - "traefik.docker.network=nt_default"
     ports:
-      - "8080:80"
+      - "4000:80"
     environment:
       # - NGINX_HOST=foobar.com
       - NGINX_PORT=80
