@@ -6,6 +6,13 @@ services:
     volumes:
       - ./templates:/etc/nginx/templates
       - .:/usr/share/nginx/html/
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.alpine.rule=Host(alpine.zafardevops.uz)"
+      # - "traefik.http.routers.alpine.entrypoints=websecure"
+      # - "traefik.http.routers.alpine.tls.certresolver=letsencrypt"
+      - "traefik.http.services.alpine.loadbalancer.server.port=8080"
+      - "traefik.docker.network=nt_default"
     ports:
       - "8080:80"
     environment:
